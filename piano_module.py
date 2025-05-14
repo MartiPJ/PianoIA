@@ -19,10 +19,10 @@ class PianoModule:
         self.sound_player = sound_player
         
         # Mapeo de dedos a notas (mano derecha)
-        self.right_hand_notes = ['do4', 're4', 'mi4', 'fa4', 'sol4']
+        self.right_hand_notes = ['la4', 'si4', 'do5', 're5', 'mi5']
         
         # Mapeo de dedos a notas (mano izquierda)
-        self.left_hand_notes = ['sol3', 'fa3', 'mi3', 're3', 'do3']
+        self.left_hand_notes = ['do4', 're4', 'mi4', 'fa4', 'sol4']
         
         # Estado de los dedos en el frame anterior
         self.previous_fingers_right = [0, 0, 0, 0, 0]
@@ -40,6 +40,7 @@ class PianoModule:
         self.piano_keys = {
             'right': self._create_piano_visualization(is_right=True),
             'left': self._create_piano_visualization(is_right=False)
+            
         }
     
     def _create_piano_visualization(self, is_right=True):
@@ -54,12 +55,16 @@ class PianoModule:
         """
         key_width = 40
         key_height = 120
-        start_x = 50 if is_right else 350
+
+        # Cambia las posiciones iniciales: izquierda inicia más a la izquierda
+        start_x = 50 if not is_right else 350
         start_y = 50
-        
+
         keys = []
+
+        # Orden natural: de izquierda a derecha
         notes = self.right_hand_notes if is_right else self.left_hand_notes
-        
+
         for i, note in enumerate(notes):
             key = {
                 'x': start_x + i * key_width,
@@ -73,8 +78,10 @@ class PianoModule:
                 'label': note.upper()
             }
             keys.append(key)
-        
+
         return keys
+
+
     
     def _draw_piano_keys(self, img):
         """
@@ -179,7 +186,7 @@ class PianoModule:
                     for idx, finger_up in enumerate(fingers):
                         # Si el dedo se acaba de levantar
                         if finger_up == 1 and self.previous_fingers_left[idx] == 0:
-                            note = self.left_hand_notes[idx]
+                            note = list(self.left_hand_notes)[::-1][idx]
                             self.sound_player.play_note(note)
                             
                             # Activar visualización de la tecla
@@ -189,7 +196,7 @@ class PianoModule:
                         
                         # Si el dedo se ha bajado, desactivar la tecla
                         elif finger_up == 0 and self.previous_fingers_left[idx] == 1:
-                            note = self.left_hand_notes[idx]
+                            note = list(self.left_hand_notes)[::-1][idx]
                             for key in self.piano_keys['left']:
                                 if key['note'] == note:
                                     key['active'] = False
@@ -217,10 +224,11 @@ class PianoModule:
         img = self._draw_piano_keys(img)
         
         # Mostrar instrucciones en pantalla
-        cv2.putText(img, "Mano Derecha: DO4-SOL4", (10, 450), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        cv2.putText(img, "Mano Izquierda: DO3-SOL3", (10, 480), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+        cv2.putText(img, "Mano Izquierda: DO4-SOL4", (10, 450), 
+            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
+        cv2.putText(img, "Mano Derecha: LA4-MI5", (10, 480), 
+            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+
         cv2.putText(img, "Puño cerrado = Acorde", (10, 510), 
                     cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
         cv2.putText(img, "Presiona 'q' para salir", (10, 540), 

@@ -32,8 +32,8 @@ class SoundPlayer:
         """Genera archivos de sonido para las notas del piano usando síntesis simple"""
         # Diccionario con las frecuencias de las notas (en Hz)
         note_freqs = {
-            'do3': 130.81, 're3': 146.83, 'mi3': 164.81, 'fa3': 174.61, 'sol3': 196.00,
-            'do4': 261.63, 're4': 293.66, 'mi4': 329.63, 'fa4': 349.23, 'sol4': 392.00
+            'do4': 261.63, 're4': 293.66, 'mi4': 329.63, 'fa4': 349.23, 'sol4': 392.00,
+            'la4': 440.00, 'si4': 493.88, 'do5': 523.25, 're5': 587.33, 'mi5': 659.26,
         }
         
         # Generar un sonido simple para cada nota
@@ -80,7 +80,7 @@ class SoundPlayer:
     
     def _load_notes(self):
         """Carga los archivos de sonido de las notas"""
-        note_names = ['do3', 're3', 'mi3', 'fa3', 'sol3', 'do4', 're4', 'mi4', 'fa4', 'sol4']
+        note_names = ['do4', 're4', 'mi4', 'fa4', 'sol4', 'la4', 'si4', 'do5', 're5', 'mi5']
         
         for note in note_names:
             file_path = os.path.join('notes', f'{note}.wav')
