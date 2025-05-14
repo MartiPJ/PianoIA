@@ -94,7 +94,7 @@ class SoundPlayer:
         Reproduce una nota específica
         
         Parámetros:
-        - note_name: Nombre de la nota a reproducir (ej: 'do4', 're3')
+        - note_name: Nombre de la nota a reproducir (ej: 'do4', 're5')
         """
         if note_name in self.notes:
             self.notes[note_name].play()

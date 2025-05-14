@@ -149,6 +149,7 @@ class PianoModule:
                         if finger_up == 1 and self.previous_fingers_right[idx] == 0:
                             note = self.right_hand_notes[idx]
                             self.sound_player.play_note(note)
+                            print(f"Nota reproducida: {note}")
                             
                             # Activar visualización de la tecla
                             for key in self.piano_keys['right']:
@@ -188,6 +189,7 @@ class PianoModule:
                         if finger_up == 1 and self.previous_fingers_left[idx] == 0:
                             note = list(self.left_hand_notes)[::-1][idx]
                             self.sound_player.play_note(note)
+                            print(f"Nota reproducida: {note}")
                             
                             # Activar visualización de la tecla
                             for key in self.piano_keys['left']:
